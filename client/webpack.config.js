@@ -20,11 +20,13 @@ module.exports = () => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html',
-        title: 'TODOs List'
+        title: 'JATE'
       }),
 
       new GenerateSW(),
       new WebpackPwaManifest({
+        fingerprints: false,
+        inject: true,
         name: 'Jate',
         short_name: 'Jate',
         description: 'PWA Text Editor',
@@ -35,7 +37,7 @@ module.exports = () => {
         icons: [
           {
             src: path.resolve('./src/images/logo.png'),
-            sizes: [192],
+            sizes: [96, 128, 192, 256, 384, 512],
             destination: path.join('assets', 'icons'),
           },
         ],
@@ -56,7 +58,10 @@ module.exports = () => {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env'],
-              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
+              plugins: [
+                '@babel/plugin-proposal-object-rest-spread', 
+                '@babel/transform-runtime'
+              ],
             },
           },
         },
