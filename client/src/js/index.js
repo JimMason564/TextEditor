@@ -24,10 +24,13 @@ if (typeof editor === 'undefined') {
 }
 
 // Check if service workers are supported
-if ('serviceWorker' in navigator) {
-  // register workbox service worker
-  const workboxSW = new Workbox('/src-sw.js');
-  workboxSW.register();
-} else {
-  console.error('Service workers are not supported in this browser.');
-}
+registerRoute();
+({ request }) => ["style", "script", "worker"].includes(request.destination),
+  new StaleWhileRevalidate({
+    cacheName: "asset-cache",
+    plugins: [
+      new CacheableResponsePlugin({
+        statuses: [0, 200],
+      }),
+    ],
+  });
